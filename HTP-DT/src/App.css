@@ -30,3 +30,10 @@ ul {
 .queryInput {
   margin-bottom: 10px;
 }
+
+
+.WordCloud {
+    border: 1px solid #ffffff;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
