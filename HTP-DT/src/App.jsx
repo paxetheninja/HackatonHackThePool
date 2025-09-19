@@ -13,12 +13,17 @@ function App() {
 
     const query = "Tragödie"
 
+    const filter = "&per_page=50"
+
     useEffect(() => {
-      fetch("https://api.kulturpool.at/search/?q=" + query )
+      fetch("https://api.kulturpool.at/search/?q=" + query + filter )
         .then(response => response.json())
         .then(json => {setHits(json.hits)})
         .catch(error => console.error(error))
     }, [])
+
+
+    console.log(hits)
 
   return (
     <>
@@ -29,17 +34,24 @@ function App() {
 
       <h1>Objects</h1>
 
+
+    <div className='responseGrid'>
       {hits.map((hit, index) => (
+      <div className='responseHolder' key={hit.document.id || index}>
       <ul>
+        <a href={hit.document.isShownAt}>
         <img 
-        key={hit.document.id || index} 
         src={hit.document.previewImage} 
         alt={hit.document.title?.[0] || "not loaded"} 
         />
+        </a>
         <li>{hit.document.title?.[0]}</li>
         <li>{hit.document.id}</li>
+        <li>{hit.document.dataProvider}</li>
       </ul> 
+      </div>  
     ))}
+    </div>
     </>
   )
 }

@@ -8,3 +8,14 @@
 ul {
   list-style: none;
 }
+
+.responseHolder {
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.responseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
