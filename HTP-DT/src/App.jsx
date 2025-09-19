@@ -9,9 +9,13 @@ function App() {
 
     const _data = [10, 15, 20, 18, 25, 30, 28, 35, 40, 38];
 
-    const [hits, setHits] = useState([])
+    const [hits, setHits] = useState([]);
 
-    const query = "Tragödie"
+    const [query, setQuery] = useState("Tragödie");
+
+    function queryInput(input) {
+      setQuery(input.target.value);
+    }
 
     const filter = "&per_page=50"
 
@@ -20,7 +24,7 @@ function App() {
         .then(response => response.json())
         .then(json => {setHits(json.hits)})
         .catch(error => console.error(error))
-    }, [])
+    }, [query])
 
 
     console.log(hits)
@@ -34,6 +38,7 @@ function App() {
 
       <h1>Objects</h1>
 
+    <input className='queryInput' value={query} onChange={queryInput}></input>
 
     <div className='responseGrid'>
       {hits.map((hit, index) => (

@@ -9,13 +9,24 @@ ul {
   list-style: none;
 }
 
-.responseHolder {
+.responseHolder img  {
   border: 1px solid #ffffff;
   border-radius: 8px;
   padding: 0.5rem;
+  height: auto;
+  object-fit: contain;
+
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
+
 }
 
 .responseGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+}
+
+.queryInput {
+  margin-bottom: 10px;
 }
