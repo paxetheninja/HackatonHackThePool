@@ -91,7 +91,7 @@ function App() {
 
 
 
-    //console.log(hits)
+    console.log(hits)
 
   return (
     <>
@@ -120,8 +120,12 @@ function App() {
         />
         </a>
         <li>{hit.document.title?.[0]}</li>
-        <li>{hit.document.id}</li>
+        <li>{hit.document.creator}</li>
+        <li>{hit.document.created}</li>
+
+        <li>-----</li>
         <li>{hit.document.dataProvider}</li>
+        <li>{hit.document.id}</li>
         <li>
           <button onClick={() => fetchIIIF(hit.document.iiifManifest)}>Show Wordcloud</button>
         </li>
