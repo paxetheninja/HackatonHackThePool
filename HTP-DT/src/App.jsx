@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import LinePlot from './Plots/LinePlot'
 
 import WordCloud from './Plots/WordCloud';
 
 import { stopwordsDE } from './NLP/StopWords';
 
-function App() {
+import GameStart from './Pages/GameStart.jsx';
+import GameSelection from './Pages/GameSelection.jsx';
+
+function AppContent() {
 
     const imgScale = 2;
 
@@ -98,7 +101,9 @@ function App() {
 
       <img src="datatragedy.png" width={150*imgScale} height={100*imgScale}></img>
       <h1>Hack The Pool - Datentragödie</h1>
-
+        <Link to="/gamestart">
+          <button style={{ marginBottom: 20 }}>Go to GameStart</button>
+        </Link>
 
         {wordCountFiltered && Object.keys(wordCountFiltered).length > 0 && (
          <WordCloud data={wordCountFiltered} width={800} height={500} />
@@ -135,6 +140,18 @@ function App() {
     </div>
     </>
   )
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<AppContent />} /> 
+        <Route path="/gameselection" element={<GameSelection />} />
+        <Route path="/gamestart" element={<GameStart />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App
