@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import LinePlot from './Plots/LinePlot'
 
 import WordCloud from './Plots/WordCloud';
 
@@ -10,8 +9,11 @@ import { stopwordsDE } from './NLP/StopWords';
 import GameStart from './Pages/GameStart.jsx';
 import GameSelection from './Pages/GameSelection.jsx';
 
+import { api } from './API/API.jsx';
+
 function AppContent() {
 
+  //#region Declarations
     const imgScale = 2;
 
     const [hits, setHits] = useState([]);
@@ -21,17 +23,20 @@ function AppContent() {
     const [iiif, setIIIf] = useState([]);
     const [wordCountFiltered, setWordCountFiltered] = useState([])
 
-    function queryInput(input) {
-      setQuery(input.target.value);
-    }
+    const [llmText, setLllmText] = useState("")
+
+  //#endregion
+
+
+
+
+
+    //#region Use Effects
 
     useEffect(() => {
-      fetch("https://api.kulturpool.at/search/?q=" + query + filter )
-        .then(response => response.json())
-        .then(json => {
-          setHits(json.hits);
-        })
-        .catch(error => console.error(error))
+
+      api.search(query, filter).then(setHits).catch(console.error);
+
     }, [query])
 
     useEffect(() => {
@@ -43,56 +48,62 @@ function AppContent() {
         const texts = iiif.map(canvas => {
         const fullTextURL = canvas.otherContent[0]?.resources[0]?.resource["@id"];
         if(!fullTextURL) return Promise.resolve("");
-        return fetch (fullTextURL).then(response => response.text()).catch(error => {console.error("Fetch failed for: ", fullTextURL, error)});
+        return fetch (fullTextURL)
+          .then(response => response.text())
+          .catch(error => {console.error("Fetch failed for: ", fullTextURL, error)});
         });
 
-        const allTexts = await Promise.all(texts)
+        const allTexts = await Promise.all(texts);
 
-        const fullText = allTexts.join("")
-     //   console.log(fullText);
+        const fullText = allTexts.join("");
+        console.log(fullText);
+
+        llmAnaylze(fullText);
 
         let words = fullText.toLowerCase().split(/\W+/).filter(Boolean).filter(word => !stopwordsDE.has(word));
         words = words.filter(words => words.length > 3 && isNaN(words));
-
 
         const wordCounts = {};
         words.forEach(word => {
           wordCounts[word] = (wordCounts[word] || 0) + 1;
         });
 
-       // console.log("Word Counts: ", wordCounts);
-
-
-        setWordCountFiltered(Array.from(Object.entries(wordCounts)).filter(([word, count]) => count > 5));
-
-        
+        setWordCountFiltered(Array.from(Object.entries(wordCounts)).filter(([word, count]) => count > 5)); 
       }
 
       fetchIIFText();
 
-
-
-
-
     },[iiif])
 
-    function fetchIIIF(url) {
-      fetch(url)
-        .then(response => response.json())
-        .then(json => {
-          const canvases = json.sequences?.[0]?.canvases; 
-          const fullText = canvases;
-        //  console.log("FULL TEXT: " + fullText)
-          setIIIf(canvases);
+    //#endregion
 
-        })
-        .catch(error => console.error(error))
+
+    //#region Functions
+
+    function llmAnaylze(text) {
+
+    //  console.log(text)
+
+       // const strippedText = text.substring(80, 2000);
+
+        fetch("http://127.0.0.1:8000/llm", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({input: text})
+        }).then(response => response.json()).then(data => setLllmText(data.output))
+
 
     }
 
+    function fetchIIIF(url) {
+      api.fetchManifest(url).then(setIIIf).catch(console.error);
+   }
 
+        function queryInput(input) {
+      setQuery(input.target.value);
+    }
 
-
+    //#endregion
 
     console.log(hits)
 
@@ -101,13 +112,18 @@ function AppContent() {
 
       <img src="datatragedy.png" width={150*imgScale} height={100*imgScale}></img>
       <h1>Hack The Pool - Datentragödie</h1>
-        <Link to="/gamestart">
-          <button style={{ marginBottom: 20 }}>Go to GameStart</button>
-        </Link>
+
 
         {wordCountFiltered && Object.keys(wordCountFiltered).length > 0 && (
          <WordCloud data={wordCountFiltered} width={800} height={500} />
         )}  
+
+        <p className='llmTExt'>{llmText}</p>
+        
+
+        <Link to="/gamestart">
+          <button style={{ marginBottom: 20 }}>Go to GameStart</button>
+        </Link>
 
 
       <h1>Objects</h1>
@@ -133,6 +149,7 @@ function AppContent() {
         <li>{hit.document.id}</li>
         <li>
           <button onClick={() => fetchIIIF(hit.document.iiifManifest)}>Show Wordcloud</button>
+          <button onClick={() => llmAnaylze(hit.document.title[0])}>Get Summary</button>
         </li>
       </ul> 
       </div>  
