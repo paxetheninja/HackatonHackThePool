@@ -71,7 +71,7 @@ function Epoch() {
         return;
       }
       const slotObj = tippSlots[selectedSlot - 1];
-      if (slotObj && (slotObj.category === "pictures" || slotObj.category === "architecture")) {
+      if (slotObj && (slotObj.category === "pictures" || slotObj.category === "architecture" || slotObj.category === "text" )) {
         try {
           const result = await api.searchStatic(slotObj.value);
           let preview = "";
@@ -166,7 +166,17 @@ function Epoch() {
               return <img src={previewImage} alt={`Tipp ${selectedSlot}`} style={{ marginTop: 24, maxHeight: 250, maxWidth: '100%', borderRadius: 12 }} />;
             } else if (slotObj.category === 'text') {
               if (wordCountFiltered && Object.keys(wordCountFiltered).length > 0) {
-                return <WordCloud data={wordCountFiltered} width={800} height={500} />;
+                // Try to get a preview image for the book (use previewImage if available, fallback to placeholder)
+                const bookImg = previewImage;
+                return (
+                  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 32, justifyContent: 'center', marginTop: 24 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 140 }}>
+                      <img src={bookImg} alt="Buch" style={{ width: 120, height: 180, objectFit: 'cover', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} />
+                      <div style={{ marginTop: 12, fontSize: 18, color: '#444', textAlign: 'center' }}>Placeholder</div>
+                    </div>
+                    <WordCloud data={wordCountFiltered} width={600} height={400} />
+                  </div>
+                );
               } else {
                 return <span style={{ marginTop: 24, fontSize: 36, color: '#888' }}>[Loading ...]</span>;
               }
