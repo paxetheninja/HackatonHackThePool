@@ -39,41 +39,7 @@ function AppContent() {
 
     }, [query])
 
-    useEffect(() => {
-     // setWordCountFiltered(api.getProcessedText(iiif))
 
-      async function fetchIIFText() {
-
-        if(!iiif.length) return;
-
-        const texts = iiif.map(canvas => {
-        const fullTextURL = canvas.otherContent[0]?.resources[0]?.resource["@id"];
-        if(!fullTextURL) return Promise.resolve("");
-        return fetch (fullTextURL)
-          .then(response => response.text())
-          .catch(error => {console.error("Fetch failed for: ", fullTextURL, error)});
-        });
-
-        const allTexts = await Promise.all(texts);
-        const fullText = allTexts.join("");
-        console.log(fullText);
-
-        llmAnaylze(fullText);
-
-        let words = fullText.toLowerCase().split(/\W+/).filter(Boolean).filter(word => !stopwordsDE.has(word));
-        words = words.filter(words => words.length > 3 && isNaN(words));
-
-        const wordCounts = {};
-        words.forEach(word => {
-          wordCounts[word] = (wordCounts[word] || 0) + 1;
-        });
-
-        setWordCountFiltered(Array.from(Object.entries(wordCounts)).filter(([word, count]) => count > 5)); 
-      }
-
-      fetchIIFText();
-
-    },[iiif])
 
     //#endregion
 
@@ -87,7 +53,7 @@ function AppContent() {
     fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        Authorization: 'Bearer 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',
+        Authorization: 'Bearer -------',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -114,7 +80,8 @@ function AppContent() {
   }
 
     function fetchIIIF(url) {
-      api.fetchManifest(url).then(setIIIf).catch(console.error);
+      api.getProcessedFullText(url).then(setWordCountFiltered).catch(console.error);
+     // api.fetchManifest(url).then(setIIIf).catch(console.error);
    }
 
         function queryInput(input) {
@@ -189,6 +156,8 @@ function AppContent() {
 }
 
 function AppContentGame() {
+
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 40 }}>
       <h2>Game Selection</h2>
@@ -206,7 +175,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AppContentGame />} /> 
+        <Route path="/" element={<AppContent/>} /> 
         <Route path="/gameselection" element={<GameSelection />} />
         <Route path="/gamestart" element={<GameStart />} />
         <Route path="/epoch" element={<Epoch />} />

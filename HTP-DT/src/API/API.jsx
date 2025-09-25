@@ -1,3 +1,5 @@
+import { stopwordsDE } from "../NLP/StopWords";
+
 export class API {
 
     
@@ -22,7 +24,11 @@ export class API {
     }
 
 
-    async getProcessedText(iiif) {
+    async getProcessedFullText(url) {
+
+        const response = await fetch(url);
+        const json = await response.json();
+        const iiif = json.sequences?.[0]?.canvases;
 
 
         if(!iiif.length) return;
@@ -38,7 +44,6 @@ export class API {
         const allTexts = await Promise.all(texts);
         const fullText = allTexts.join("");
 
-        llmAnaylze(fullText);
 
         let words = fullText.toLowerCase().split(/\W+/).filter(Boolean).filter(word => !stopwordsDE.has(word));
         words = words.filter(words => words.length > 3 && isNaN(words));
@@ -60,6 +65,5 @@ export class API {
     }
 
 }
-
 
 export const api = new API();
