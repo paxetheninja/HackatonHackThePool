@@ -1,69 +1,107 @@
 
 
-
 import React, { useEffect, useState } from "react";
+import { api } from "../API/API.jsx";
+import epochData from "../Data/Epoch.json";
+
+
+
+
 
 function Epoch() {
+  const epochEntries = epochData;
   const [entry, setEntry] = useState(null); // {name, text, pictures, audio, persons}
   const [selectedSlot, setSelectedSlot] = useState(1);
   const [selectedCategories, setSelectedCategories] = useState([null, null, null, null, null]); // 5 Tipp slots
-  const [epochEntries, setEpochEntries] = useState([]); // array of epoch objects
-  const [buttonStates, setButtonStates] = useState({}); // {entry: 'default'|'correct'|'wrong'|'disabled'}
+  const [previewImage, setPreviewImage] = useState("");
+  const [buttonStates, setButtonStates] = useState({});
+  const [gameState, setGameState] = useState("running");
   const [attempts, setAttempts] = useState(0);
-  const [gameState, setGameState] = useState("running"); // 'running' | 'Won' | 'Lost'
   const maxAttempts = 3;
 
+  // On mount or reset, pick a random entry and random categories
   useEffect(() => {
-    fetch("/src/Data/Epoch.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setEpochEntries(data);
-        if (data.length > 0) {
-          const random = data[Math.floor(Math.random() * data.length)];
-          setEntry(random);
-          // For each Tipp slot, select a random subcategory
-          const categories = ["text", "pictures", "audio", "persons"].filter(cat => random[cat] && random[cat].length > 0);
-          if (categories.length > 0) {
-            setSelectedCategories(Array.from({length: 5}, () => categories[Math.floor(Math.random() * categories.length)]));
-          } else {
-            setSelectedCategories([null, null, null, null, null]);
-          }
-        }
-      });
+    const randomEntry = epochEntries[Math.floor(Math.random() * epochEntries.length)];
+    setEntry(randomEntry);
+    const allCategories = ["text", "pictures", "audio", "persons", "architecture"];
+    const shuffled = allCategories.sort(() => 0.5 - Math.random());
+    setSelectedCategories(shuffled.slice(0, 5));
+    setSelectedSlot(1);
+    setButtonStates({});
+    setGameState("running");
+    setAttempts(0);
+    setPreviewImage("");
   }, []);
 
+  // Fetch preview image for selected Tipp slot if category is 'pictures' or 'architecture'
+  useEffect(() => {
+    const fetchPreview = async () => {
+      if (!entry) {
+        setPreviewImage("");
+        return;
+      }
+      const cat = selectedCategories[selectedSlot - 1];
+      if ((cat === "pictures" || cat === "architecture") && entry[cat] && entry[cat].length > 0) {
+        const arr = entry[cat];
+        const slot = selectedSlot - 1;
+        const idx = arr.length === 1 ? 0 : (slot % arr.length);
+        const picString = arr[idx];
+        try {
+          const result = await api.searchStatic(picString);
+          let preview = "";
+          if (Array.isArray(result)) {
+            if (result[0]?.document?.previewImage) {
+              preview = result[0].document.previewImage;
+            } else {
+              preview = picString;
+            }
+          } else if (result?.document?.previewImage) {
+            preview = result.document.previewImage;
+          } else {
+            preview = picString;
+          }
+          setPreviewImage(preview);
+        } catch (e) {
+          setPreviewImage("");
+        }
+      } else {
+        setPreviewImage("");
+      }
+    };
+    fetchPreview();
+  }, [entry, selectedCategories, selectedSlot]);
+
   const handleEpochGuess = (guess) => {
-    if (buttonStates[guess] || gameState !== "running") return; // already pressed or game over
-    if (!entry) return;
+    if (buttonStates[guess] || gameState !== "running" || !entry) return;
     if (guess === entry.name) {
-      setGameState("Won");
+      setGameState("won");
       setButtonStates(prev => {
         const newStates = {};
         epochEntries.forEach(e => {
-          if (prev[e.name] === 'wrong') {
-            newStates[e.name] = 'wrong';
-          } else if (e.name === guess) {
-            newStates[e.name] = 'correct';
+          if (e.name === guess) {
+            newStates[e.name] = "correct";
+          } else if (prev[e.name] === "wrong") {
+            newStates[e.name] = "wrong";
           } else {
-            newStates[e.name] = 'disabled';
+            newStates[e.name] = "disabled";
           }
         });
         return newStates;
       });
     } else {
       if (attempts + 1 >= maxAttempts) {
-        setGameState("Lost");
+        setGameState("lost");
         setButtonStates(prev => {
-          const newStates = { ...prev, [guess]: 'wrong' };
+          const newStates = { ...prev, [guess]: "wrong" };
           epochEntries.forEach(e => {
-            if (!newStates[e.name]) newStates[e.name] = 'disabled';
+            if (!newStates[e.name]) newStates[e.name] = "disabled";
           });
           return newStates;
         });
       } else {
         setButtonStates(prev => ({
           ...prev,
-          [guess]: 'wrong'
+          [guess]: "wrong"
         }));
       }
       setAttempts(a => a + 1);
@@ -115,12 +153,8 @@ function Epoch() {
         >
           <span style={{ position: 'absolute', top: 16, left: 18, fontSize: 22, color: '#888', fontWeight: 'normal' }}>#{selectedSlot}</span>
           {selectedCategories[selectedSlot-1] && (
-            selectedCategories[selectedSlot-1] === 'pictures' && entry && entry.pictures && entry.pictures.length > 0 ? (
-              <img
-                src={entry.pictures[0]}
-                alt="Epoche Bild"
-                style={{ marginTop: 24, maxWidth: 400, maxHeight: 200, borderRadius: 12, border: '2px solid #1976d2' }}
-              />
+            (selectedCategories[selectedSlot-1] === 'pictures' || selectedCategories[selectedSlot-1] === 'architecture') && previewImage ? (
+              <img src={previewImage} alt={`Tipp ${selectedSlot}`} style={{ marginTop: 24, maxHeight: 250, maxWidth: '100%', borderRadius: 12 }} />
             ) : (
               <span style={{ marginTop: 24, fontSize: 36 }}>{selectedCategories[selectedSlot-1].charAt(0).toUpperCase() + selectedCategories[selectedSlot-1].slice(1)}</span>
             )

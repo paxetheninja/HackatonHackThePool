@@ -1,12 +1,5 @@
 export class API {
 
-
-
-    API() {
-    let iiif = "";
-    let GND = "";
-    }
-
     
     async search(query,filter) {
         const response = await fetch("https://api.kulturpool.at/search/?q=" + query + filter);
@@ -14,7 +7,7 @@ export class API {
         return json.hits;
     }
 
-        async searchStatic(query) {
+    async searchStatic(query) {
         const response = await fetch(query);
         const json = await response.json();
         return json.hits;

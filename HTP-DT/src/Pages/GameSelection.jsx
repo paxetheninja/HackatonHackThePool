@@ -42,7 +42,7 @@ function GameSelection() {
                 <div><b>ID:</b> {selected.document.id}</div>
                 <div>
                   <a href={selected.document.isShownAt} target="_blank" rel="noopener noreferrer">
-                    <img src={selected.document.previewImage} alt={selected.document.title?.[0] || "not loaded"} style={{ maxWidth: 200 }} />
+                    <img src={selected.document.previewImage}  style={{ maxWidth: 200 }} />
                   </a>
                 </div>
               </div>

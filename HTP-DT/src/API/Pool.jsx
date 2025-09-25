@@ -3,13 +3,17 @@ export class Pool {
 
 
     constructor(query) {
-        this.hits = this.searchStatic(query);
-        this.iiifManifest = this.fetchManifest(this.hits.document.iiifManifest);
+        this.document = this.searchStatic(query);
+    
+        this.iiifManifest = this.fetchManifest(this.document.iiifManifest);
         this.iiifText = this.fetchIIFText(this.iiifManifest);
-        this.gnd = this.fetchGND(this.hits.document.fullViewMetadata);
+        this.gnd = this.fetchGND(this.document.fullViewMetadata);
     }
 
-
+    async pic()
+    {
+        return this.document.previewImage;
+    }
 
     async search(query,filter) {
         const response = await fetch("https://api.kulturpool.at/search/?q=" + query + filter);
@@ -20,7 +24,7 @@ export class Pool {
         async searchStatic(query) {
         const response = await fetch(query);
         const json = await response.json();
-        return json.hits;
+        return json.hits[0].document;
     }
 
     async fetchManifest(url) {
