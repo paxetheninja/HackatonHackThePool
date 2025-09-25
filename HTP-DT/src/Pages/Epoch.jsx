@@ -37,7 +37,7 @@ function Epoch() {
     };
     fetchProcessedText();
   }, [entry, tippSlots, selectedSlot]);
-  const maxAttempts = 3;
+  const maxAttempts = 5;
 
   // On mount or reset, pick a random entry and random categories
   useEffect(() => {
@@ -191,26 +191,32 @@ function Epoch() {
       >
         <div style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 8 }}>Tipp:</div>
         <div style={{ display: 'flex', gap: 24, justifyContent: 'center' }}>
-          {[1, 2, 3, 4, 5].map(num => (
-            <button 
-              key={num}
-              style={{
-                fontSize: 20,
-                width: 120,
-                height: 48,
-                borderRadius: 8,
-                border: selectedSlot === num ? '3px solid #1976d2' : '2px solid #000',
-                background: selectedSlot === num ? '#1976d2' : '#000',
-                color: selectedSlot === num ? '#fff' : '#ccc',
-                fontWeight: selectedSlot === num ? 'bold' : 'normal',
-                transition: 'all 0.2s',
-                cursor: 'pointer',
-              }}
-              onClick={() => setSelectedSlot(num)}
-            >
-              {num}
-            </button>
-          ))}
+          {[1, 2, 3, 4, 5].map(num => {
+            // Unlock all tips if gameState is 'won'
+            const blocked = gameState === 'won' ? false : num > (attempts + 1);
+            return (
+              <button
+                key={num}
+                style={{
+                  fontSize: 20,
+                  width: 120,
+                  height: 48,
+                  borderRadius: 8,
+                  border: selectedSlot === num ? '3px solid #1976d2' : blocked ? '2px solid #888' : '2px solid #000',
+                  background: selectedSlot === num ? '#1976d2' : blocked ? '#888' : '#000',
+                  color: selectedSlot === num ? '#fff' : blocked ? '#bbb' : '#ccc',
+                  fontWeight: selectedSlot === num ? 'bold' : 'normal',
+                  transition: 'all 0.2s',
+                  cursor: blocked ? 'not-allowed' : 'pointer',
+                  opacity: blocked ? 0.5 : 1,
+                }}
+                onClick={() => !blocked && setSelectedSlot(num)}
+                disabled={blocked}
+              >
+                {num}
+              </button>
+            );
+          })}
         </div>
       </div>
 
