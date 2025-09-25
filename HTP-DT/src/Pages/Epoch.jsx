@@ -146,11 +146,23 @@ function Epoch() {
           )}
         </div>
       </div>
-      <div style={{ margin: '24px 0 0 0',  position: 'absolute',bottom: 100, right: 500,  textAlign: 'center' }}>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '10%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 'auto',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         <div style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 8 }}>Tipp:</div>
         <div style={{ display: 'flex', gap: 24, justifyContent: 'center' }}>
           {[1, 2, 3, 4, 5].map(num => (
-            <button
+            <button 
               key={num}
               style={{
                 fontSize: 20,
