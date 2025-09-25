@@ -1,18 +1,13 @@
 {
   "version": "0.2.0",
   "configurations": [
+
     {
-  "type": "node",
+      "type": "chrome",
       "request": "launch",
-      "name": "Launch Vite Dev Server (npm run dev)",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": [
-        "run",
-        "dev"
-      ],
-      "cwd": "${workspaceFolder}/HTP-DT",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
+      "name": "Debug Vite App in Chrome",
+      "url": "http://localhost:5173",
+  "webRoot": "${workspaceFolder}/HTP-DT"
     }
   ]
 }

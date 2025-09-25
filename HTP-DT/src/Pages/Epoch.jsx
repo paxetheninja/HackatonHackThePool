@@ -1,6 +1,7 @@
 
 
 import React, { useEffect, useState } from "react";
+import WordCloud from "../Plots/WordCloud.jsx";
 import { api } from "../API/API.jsx";
 import epochData from "../Data/Epoch.json";
 
@@ -12,20 +13,49 @@ function Epoch() {
   const epochEntries = epochData;
   const [entry, setEntry] = useState(null); // {name, text, pictures, audio, persons}
   const [selectedSlot, setSelectedSlot] = useState(1);
-  const [selectedCategories, setSelectedCategories] = useState([null, null, null, null, null]); // 5 Tipp slots
+  // Tipp slots: array of { category, value }
+  const [tippSlots, setTippSlots] = useState([null, null, null, null, null]);
   const [previewImage, setPreviewImage] = useState("");
   const [buttonStates, setButtonStates] = useState({});
   const [gameState, setGameState] = useState("running");
   const [attempts, setAttempts] = useState(0);
+  const [wordCountFiltered, setWordCountFiltered] = useState(null);
+  // Fetch processed text for 'text' Tipp slot
+  useEffect(() => {
+    const fetchProcessedText = async () => {
+      const slotObj = tippSlots[selectedSlot - 1];
+      if (slotObj && slotObj.category === "text" && entry) {
+        try {
+          const result = await api.searchStatic(slotObj.value);
+          api.getProcessedFullText(result[0].document.iiifManifest).then(setWordCountFiltered).catch(console.error);
+        } catch (e) {
+          setWordCountFiltered(null);
+        }
+      } else {
+        setWordCountFiltered(null);
+      }
+    };
+    fetchProcessedText();
+  }, [entry, tippSlots, selectedSlot]);
   const maxAttempts = 3;
 
   // On mount or reset, pick a random entry and random categories
   useEffect(() => {
     const randomEntry = epochEntries[Math.floor(Math.random() * epochEntries.length)];
     setEntry(randomEntry);
-    const allCategories = ["text", "pictures","architecture"];
-    const shuffled = allCategories.sort(() => 0.5 - Math.random());
-    setSelectedCategories(shuffled.slice(0, 5));
+    // Build Tipp slots: randomly pick 5 (category, value) pairs from entry's available data
+    const categories = ["text", "pictures", "architecture"];
+    let slotOptions = [];
+    categories.forEach(cat => {
+      if (randomEntry[cat] && Array.isArray(randomEntry[cat])) {
+        randomEntry[cat].forEach(val => {
+          slotOptions.push({ category: cat, value: val });
+        });
+      }
+    });
+    // Shuffle and pick 5
+    slotOptions = slotOptions.sort(() => 0.5 - Math.random());
+    setTippSlots(slotOptions.slice(0, 5));
     setSelectedSlot(1);
     setButtonStates({});
     setGameState("running");
@@ -40,25 +70,21 @@ function Epoch() {
         setPreviewImage("");
         return;
       }
-      const cat = selectedCategories[selectedSlot - 1];
-      if ((cat === "pictures" || cat === "architecture") && entry[cat] && entry[cat].length > 0) {
-        const arr = entry[cat];
-        const slot = selectedSlot - 1;
-        const idx = arr.length === 1 ? 0 : (slot % arr.length);
-        const picString = arr[idx];
+      const slotObj = tippSlots[selectedSlot - 1];
+      if (slotObj && (slotObj.category === "pictures" || slotObj.category === "architecture")) {
         try {
-          const result = await api.searchStatic(picString);
+          const result = await api.searchStatic(slotObj.value);
           let preview = "";
           if (Array.isArray(result)) {
             if (result[0]?.document?.previewImage) {
               preview = result[0].document.previewImage;
             } else {
-              preview = picString;
+              preview = slotObj.value;
             }
           } else if (result?.document?.previewImage) {
             preview = result.document.previewImage;
           } else {
-            preview = picString;
+            preview = slotObj.value;
           }
           setPreviewImage(preview);
         } catch (e) {
@@ -69,7 +95,7 @@ function Epoch() {
       }
     };
     fetchPreview();
-  }, [entry, selectedCategories, selectedSlot]);
+  }, [entry, tippSlots, selectedSlot]);
 
   const handleEpochGuess = (guess) => {
     if (buttonStates[guess] || gameState !== "running" || !entry) return;
@@ -131,24 +157,23 @@ function Epoch() {
       </div>
       <div style={{ height: 90 }} />
       <div style={{ display: 'flex', gap: 12, marginBottom: 32, justifyContent: 'center' }}>
-        <div
-          key={selectedSlot}
-         
-        >
+        <div key={selectedSlot}>
           <span style={{ position: 'absolute', top: 16, left: 18, fontSize: 22, color: '#888', fontWeight: 'normal' }}>#{selectedSlot}</span>
-          {selectedCategories[selectedSlot-1] && (
-            (selectedCategories[selectedSlot-1] === 'pictures' || selectedCategories[selectedSlot-1] === 'architecture') && previewImage ? (
-              <img src={previewImage} alt={`Tipp ${selectedSlot}`} style={{ marginTop: 24, maxHeight: 250, maxWidth: '100%', borderRadius: 12 }} />
-            ) : selectedCategories[selectedSlot-1] === 'text' ? (
-              (() => { 
-
-                
-
-               })() || <span style={{ marginTop: 24, fontSize: 36, color: '#888' }}>[Text-Tipp]</span>
-            ) : (
-              <span style={{ marginTop: 24, fontSize: 36 }}>{selectedCategories[selectedSlot-1].charAt(0).toUpperCase() + selectedCategories[selectedSlot-1].slice(1)}</span>
-            )
-          )}
+          {(() => {
+            const slotObj = tippSlots[selectedSlot-1];
+            if (!slotObj) return null;
+            if ((slotObj.category === 'pictures' || slotObj.category === 'architecture') && previewImage) {
+              return <img src={previewImage} alt={`Tipp ${selectedSlot}`} style={{ marginTop: 24, maxHeight: 250, maxWidth: '100%', borderRadius: 12 }} />;
+            } else if (slotObj.category === 'text') {
+              if (wordCountFiltered && Object.keys(wordCountFiltered).length > 0) {
+                return <WordCloud data={wordCountFiltered} width={800} height={500} />;
+              } else {
+                return <span style={{ marginTop: 24, fontSize: 36, color: '#888' }}>[Loading ...]</span>;
+              }
+            } else {
+              return <span style={{ marginTop: 24, fontSize: 36 }}>{slotObj.category.charAt(0).toUpperCase() + slotObj.category.slice(1)}</span>;
+            }
+          })()}
         </div>
       </div>
       <div
