@@ -139,7 +139,8 @@ function Epoch() {
           {selectedCategories[selectedSlot-1] && (
             (selectedCategories[selectedSlot-1] === 'pictures' || selectedCategories[selectedSlot-1] === 'architecture') && previewImage ? (
               <img src={previewImage} alt={`Tipp ${selectedSlot}`} style={{ marginTop: 24, maxHeight: 250, maxWidth: '100%', borderRadius: 12 }} />
-            
+            ) : selectedCategories[selectedSlot-1] === 'text' ? (
+              (() => { /* empty function for text slot */ })() || <span style={{ marginTop: 24, fontSize: 36, color: '#888' }}>[Text-Tipp]</span>
             ) : (
               <span style={{ marginTop: 24, fontSize: 36 }}>{selectedCategories[selectedSlot-1].charAt(0).toUpperCase() + selectedCategories[selectedSlot-1].slice(1)}</span>
             )
