@@ -9,6 +9,12 @@ export class API {
         return json.hits;
     }
 
+    async searchObject(id,institution,time)
+    {
+        const response = await fetch(`https://api.kulturpool.at/object/?institution=${institution}&version=${time}&identifier=${id}`);
+        return response;
+    }
+
     async searchStatic(query) {
         const response = await fetch(query);
         const json = await response.json();
