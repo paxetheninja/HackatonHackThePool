@@ -1,12 +1,12 @@
-   export function llmAnaylze(text) {
+export class Inference {
+
+   async summarize(text) {
 
     const strippedText = text.substring(0, 20000);
-    const out = "";
-
-    fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        Authorization: 'Bearer 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',
+        Authorization: `Bearer ${import.meta.env.VITE_OAI_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -18,18 +18,14 @@
           },
         ],
       }),
-    }).then(response => response.json()).then(text => out = text);
-
-    return out;
-
-
-/* Deprecated Backend Call
-
-        fetch("http://127.0.0.1:8000/llm", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({input: text})
-        }).then(response => response.json()).then(data => setLllmText(data.output))
-*/
+    })
+    const json = await response.json()
+    const summary = json.choices[0].message.content;
+    return summary;
 
   }
+    
+}
+
+export const inference = new Inference();
+   

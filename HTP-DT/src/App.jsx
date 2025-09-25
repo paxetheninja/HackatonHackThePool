@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import WordCloud from './Plots/WordCloud';
 
 import { stopwordsDE } from './NLP/StopWords';
+import { inference } from './API/Inference.jsx';
 
 
 import GameStart from './Pages/GameStart.jsx';
@@ -46,14 +47,17 @@ function AppContent() {
 
     //#region Functions
 
-    function llmAnaylze(text) {
+    function llmAnaylzer(text) {
 
+    //  setLllmText(llmAnaylze(text));
     const strippedText = text.substring(0, 20000);
+    setLllmText(inference.summarize(strippedText))
 
+/*
     fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        Authorization: 'Bearer -------',
+        Authorization: `Bearer ${import.meta.env.VITE_OAI_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -66,6 +70,9 @@ function AppContent() {
         ],
       }),
     }).then(response => response.json()).then(text => setLllmText(text.choices[0].message.content) );
+
+*/
+
 
 
 /* Deprecated Backend Call
@@ -144,7 +151,7 @@ function AppContent() {
         <li>{hit.document.id}</li>
         <li>
           <button onClick={() => fetchIIIF(hit.document.iiifManifest)}>Show Wordcloud</button>
-          <button onClick={() => llmAnaylze(hit.document.title[0])}>Get Summary</button>
+          <button onClick={() => llmAnaylzer(hit.document.title[0])}>Get Summary</button>
           <button onClick={() => testPooler(hit.document.title[0])}>Test Pooler</button>
         </li>
       </ul> 
