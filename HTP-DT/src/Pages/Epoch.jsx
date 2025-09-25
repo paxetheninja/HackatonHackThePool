@@ -23,7 +23,7 @@ function Epoch() {
   useEffect(() => {
     const randomEntry = epochEntries[Math.floor(Math.random() * epochEntries.length)];
     setEntry(randomEntry);
-    const allCategories = ["text", "pictures", "audio", "persons", "architecture"];
+    const allCategories = ["text", "pictures","architecture"];
     const shuffled = allCategories.sort(() => 0.5 - Math.random());
     setSelectedCategories(shuffled.slice(0, 5));
     setSelectedSlot(1);
@@ -133,35 +133,20 @@ function Epoch() {
       <div style={{ display: 'flex', gap: 12, marginBottom: 32, justifyContent: 'center' }}>
         <div
           key={selectedSlot}
-          style={{
-            width: 800,
-            height: 300,
-            border: '4px solid #1976d2',
-            borderRadius: 18,
-            background: '#e3f0ff',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 32,
-            color: '#222',
-            fontWeight: 'bold',
-            position: 'relative',
-            transition: 'all 0.2s',
-            margin: '0 auto',
-          }}
+         
         >
           <span style={{ position: 'absolute', top: 16, left: 18, fontSize: 22, color: '#888', fontWeight: 'normal' }}>#{selectedSlot}</span>
           {selectedCategories[selectedSlot-1] && (
             (selectedCategories[selectedSlot-1] === 'pictures' || selectedCategories[selectedSlot-1] === 'architecture') && previewImage ? (
               <img src={previewImage} alt={`Tipp ${selectedSlot}`} style={{ marginTop: 24, maxHeight: 250, maxWidth: '100%', borderRadius: 12 }} />
+            
             ) : (
               <span style={{ marginTop: 24, fontSize: 36 }}>{selectedCategories[selectedSlot-1].charAt(0).toUpperCase() + selectedCategories[selectedSlot-1].slice(1)}</span>
             )
           )}
         </div>
       </div>
-      <div style={{ margin: '24px 0 0 0', textAlign: 'center' }}>
+      <div style={{ margin: '24px 0 0 0',  position: 'absolute',bottom: 100, right: 500,  textAlign: 'center' }}>
         <div style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 8 }}>Tipp:</div>
         <div style={{ display: 'flex', gap: 24, justifyContent: 'center' }}>
           {[1, 2, 3, 4, 5].map(num => (
