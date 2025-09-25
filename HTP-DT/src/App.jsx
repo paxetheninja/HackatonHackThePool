@@ -182,7 +182,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AppContentGame/>} /> 
+         
+        <Route path="/" element={<AppContent/>}/>
         <Route path="/gameselection" element={<GameSelection />} />
         <Route path="/gamestart" element={<GameStart />} />
         <Route path="/epoch" element={<Epoch />} />

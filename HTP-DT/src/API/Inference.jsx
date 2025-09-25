@@ -14,7 +14,7 @@ export class Inference {
         messages: [
           {
             role: 'user',
-            content: `Kannst du mir in ein bis zwei Sätzen den inhalt bzw das Fazit von zwei der im Folgenden Werk vorkommenden Geschichten sagen ${strippedText}?`
+            content: `Kannst du mir in ein bis zwei Sätzen den inhalt des Folgenden Textes erklären ${strippedText}?`
           },
         ],
       }),
