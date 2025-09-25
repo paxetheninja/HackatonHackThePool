@@ -21,6 +21,37 @@ export class API {
 
     }
 
+
+    async getProcessedText(iiif) {
+
+
+        if(!iiif.length) return;
+
+        const texts = iiif.map(canvas => {
+        const fullTextURL = canvas.otherContent[0]?.resources[0]?.resource["@id"];
+        if(!fullTextURL) return Promise.resolve("");
+        return fetch (fullTextURL)
+          .then(response => response.text())
+          .catch(error => {console.error("Fetch failed for: ", fullTextURL, error)});
+        });
+
+        const allTexts = await Promise.all(texts);
+        const fullText = allTexts.join("");
+
+        llmAnaylze(fullText);
+
+        let words = fullText.toLowerCase().split(/\W+/).filter(Boolean).filter(word => !stopwordsDE.has(word));
+        words = words.filter(words => words.length > 3 && isNaN(words));
+
+        const wordCounts = {};
+        words.forEach(word => {
+          wordCounts[word] = (wordCounts[word] || 0) + 1;
+        });
+
+        return Array.from(Object.entries(wordCounts)).filter(([word, count]) => count > 5); 
+
+    }
+
     async fetchGND(url) {
 
         const response = await fetch(url);

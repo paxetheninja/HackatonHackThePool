@@ -40,6 +40,7 @@ function AppContent() {
     }, [query])
 
     useEffect(() => {
+     // setWordCountFiltered(api.getProcessedText(iiif))
 
       async function fetchIIFText() {
 
@@ -54,7 +55,6 @@ function AppContent() {
         });
 
         const allTexts = await Promise.all(texts);
-
         const fullText = allTexts.join("");
         console.log(fullText);
 
@@ -109,12 +109,9 @@ function AppContent() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({input: text})
         }).then(response => response.json()).then(data => setLllmText(data.output))
-
-
 */
 
-
-    }
+  }
 
     function fetchIIIF(url) {
       api.fetchManifest(url).then(setIIIf).catch(console.error);
@@ -135,12 +132,6 @@ function AppContent() {
       const p = new Pool("https://api.kulturpool.at/search/?q=Trag%C3%B6die");
 
       console.log(p.hits)
-
-      /*
-      console.log(p.iiifManifest)
-      console.log(p.iiifText)
-      console.log(p.gnd)     
-      */
 
     }
 
