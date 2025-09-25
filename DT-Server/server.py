@@ -27,5 +27,5 @@ def read_root():
 
 @app.post("/llm", response_model=llm_response)
 def get_llm_response(request: llm_request):
-    summary = inference.summarize(request.input)
+    summary = inference.gpt(request.input)
     return {"output": summary}

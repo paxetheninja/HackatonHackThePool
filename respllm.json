@@ -1,0 +1,36 @@
+{
+   "id":"gen-1758800831-IDzLYezVyhX2PZXDJibV",
+   "provider":"OpenAI",
+   "model":"openai/gpt-4o",
+   "object":"chat.completion",
+   "created":1758800831,
+   "choices":[
+      {
+         "logprobs":null,
+         "finish_reason":"stop",
+         "native_finish_reason":"stop",
+         "index":0,
+         "message":{
+            "role":"assistant",
+            "content":"The meaning of life is a deeply philosophical and existential question that has been pondered by humans for centuries. Different cultures, religions, and philosophies offer varied answers. Some people find meaning through religious or spiritual beliefs, others through personal fulfillment, relationships, creativity, or the pursuit of knowledge and understanding. Ultimately, it's a subjective question, and the answer can be different for everyone, depending on individual beliefs, experiences, and values. Many argue that the quest for meaning itself is what imbues life with purpose and significance.",
+            "refusal":null,
+            "reasoning":null
+         }
+      }
+   ],
+   "system_fingerprint":"fp_f33640a400",
+   "usage":{
+      "prompt_tokens":14,
+      "completion_tokens":103,
+      "total_tokens":117,
+      "prompt_tokens_details":{
+         "cached_tokens":0,
+         "audio_tokens":0
+      },
+      "completion_tokens_details":{
+         "reasoning_tokens":0
+      }
+   }
+}
+
+

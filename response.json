@@ -1,0 +1,162 @@
+{
+    "document": {
+        "alternative": [],
+        "collection": "2025-09-05T09:25:17.586Z",
+        "contributor": [],
+        "coverage": [],
+        "created": [
+            "1877"
+        ],
+        "creator": [
+            "Wolzogen, Hans von"
+        ],
+        "dataProvider": "Österreichische Nationalbibliothek",
+        "date": [],
+        "dateMax": -2903299200,
+        "dateMin": -2934748800,
+        "db": "oenb-abo",
+        "dcRights": [
+            "Österreichische Nationalbibliothek"
+        ],
+        "dcType": [
+            "Buch"
+        ],
+        "description": [
+            "Die Tragödie in Bayreuth und ihr Satyrspiel. -Leipzig, Schloemp 1877. 82 S."
+        ],
+        "disclaimer": [],
+        "edmRights": "http://rightsstatements.org/vocab/NoC-NC/1.0/",
+        "edmRightsName": "NoC-NC",
+        "edmRightsReusePolicy": "RESTRICTED",
+        "edmType": "TEXT",
+        "fullViewMetadata": "https://api.kulturpool.at/object/?institution=oenb-abo&version=2025-09-05T09%3A25%3A17.586Z&identifier=%2BZ222675403",
+        "id": "68c02c308e2a6b2dedb36b7d",
+        "identifier": [
+            "+Z222675403"
+        ],
+        "iiifManifest": "https://iiif.onb.ac.at/presentation/ABO/%2BZ222675403/manifest",
+        "intermediateProvider": [],
+        "isPartOf": [
+            "Österreichische Nationalbibliothek / Musiksammlung",
+            "Österreichisches Theatermuseum",
+            "Austrian Books Online"
+        ],
+        "isReferencedBy": [],
+        "isShownAt": "http://data.onb.ac.at/ABO/%2BZ222675403",
+        "isShownBy": "https://digital.onb.ac.at/rep/access/thumbnail/ABO_%2BZ222675403",
+        "issued": [],
+        "language": [
+            "de"
+        ],
+        "medium": [],
+        "object": "https://digital.onb.ac.at/rep/access/thumbnail/ABO_%2BZ222675403",
+        "previewImage": "https://static.kulturpool.at/images/digital.onb.ac.at/3e62eeb9c75864350f24badf4f93bd9599415daa_medium.webp",
+        "publisher": [
+            "Schloemp, Leipzig"
+        ],
+        "spatial": [
+            "Bayreuth"
+        ],
+        "subject": [
+            "Tragödie"
+        ],
+        "temporal": [],
+        "title": [
+            "Die Tragödie in Bayreuth und ihr Satyrspiel"
+        ],
+        "titleSort": "Die Tragödie in Bayreuth und ihr Satyrspiel",
+        "triggerWarning": []
+    },
+    "highlight": {
+        "description": [
+            {
+                "matched_tokens": [
+                    "Tragödie"
+                ],
+                "snippet": "Die <mark>Tragödie</mark> in Bayreuth und ihr Satyrspiel. -Leipzig, Schloemp 1877. 82 S.",
+                "value": "Die <mark>Tragödie</mark> in Bayreuth und ihr Satyrspiel. -Leipzig, Schloemp 1877. 82 S."
+            }
+        ],
+        "subject": [
+            {
+                "matched_tokens": [
+                    "Tragödie"
+                ],
+                "snippet": "<mark>Tragödie</mark>",
+                "value": "<mark>Tragödie</mark>"
+            }
+        ],
+        "title": [
+            {
+                "matched_tokens": [
+                    "Tragödie"
+                ],
+                "snippet": "Die <mark>Tragödie</mark> in Bayreuth und ihr Satyrspiel",
+                "value": "Die <mark>Tragödie</mark> in Bayreuth und ihr Satyrspiel"
+            }
+        ]
+    },
+    "highlights": [
+        {
+            "field": "subject",
+            "indices": [
+                0
+            ],
+            "matched_tokens": [
+                [
+                    "Tragödie"
+                ]
+            ],
+            "snippets": [
+                "<mark>Tragödie</mark>"
+            ],
+            "values": [
+                "<mark>Tragödie</mark>"
+            ]
+        },
+        {
+            "field": "title",
+            "indices": [
+                0
+            ],
+            "matched_tokens": [
+                [
+                    "Tragödie"
+                ]
+            ],
+            "snippets": [
+                "Die <mark>Tragödie</mark> in Bayreuth und ihr Satyrspiel"
+            ],
+            "values": [
+                "Die <mark>Tragödie</mark> in Bayreuth und ihr Satyrspiel"
+            ]
+        },
+        {
+            "field": "description",
+            "indices": [
+                0
+            ],
+            "matched_tokens": [
+                [
+                    "Tragödie"
+                ]
+            ],
+            "snippets": [
+                "Die <mark>Tragödie</mark> in Bayreuth und ihr Satyrspiel. -Leipzig, Schloemp 1877. 82 S."
+            ],
+            "values": [
+                "Die <mark>Tragödie</mark> in Bayreuth und ihr Satyrspiel. -Leipzig, Schloemp 1877. 82 S."
+            ]
+        }
+    ],
+    "text_match": 578730123365712000,
+    "text_match_info": {
+        "best_field_score": "1108091339008",
+        "best_field_weight": 12,
+        "fields_matched": 3,
+        "num_tokens_dropped": 0,
+        "score": "578730123365711971",
+        "tokens_matched": 1,
+        "typo_prefix_score": 0
+    }
+}

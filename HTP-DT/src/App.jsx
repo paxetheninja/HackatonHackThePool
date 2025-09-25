@@ -10,6 +10,7 @@ import GameStart from './Pages/GameStart.jsx';
 import GameSelection from './Pages/GameSelection.jsx';
 
 import { api } from './API/API.jsx';
+import { Pool } from './API/Pool.jsx';
 
 function AppContent() {
 
@@ -27,15 +28,12 @@ function AppContent() {
 
   //#endregion
 
-
-
-
-
     //#region Use Effects
 
     useEffect(() => {
 
       api.search(query, filter).then(setHits).catch(console.error);
+      console.log(query,filter)
 
     }, [query])
 
@@ -82,15 +80,36 @@ function AppContent() {
 
     function llmAnaylze(text) {
 
-    //  console.log(text)
+    const strippedText = text.substring(0, 20000);
 
-       // const strippedText = text.substring(80, 2000);
+    fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer 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',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: `Kannst du mir in ein bis zwei Sätzen den inhalt bzw das Fazit von zwei der im Folgenden Werk vorkommenden Geschichten sagen ${strippedText}?`
+          },
+        ],
+      }),
+    }).then(response => response.json()).then(text => setLllmText(text.choices[0].message.content) );
+
+
+/* Deprecated Backend Call
 
         fetch("http://127.0.0.1:8000/llm", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({input: text})
         }).then(response => response.json()).then(data => setLllmText(data.output))
+
+
+*/
 
 
     }
@@ -106,6 +125,22 @@ function AppContent() {
     //#endregion
 
     console.log(hits)
+
+
+
+    function testPooler() {
+      
+      const p = new Pool("https://api.kulturpool.at/search/?q=Trag%C3%B6die");
+
+      console.log(p.hits)
+
+      /*
+      console.log(p.iiifManifest)
+      console.log(p.iiifText)
+      console.log(p.gnd)     
+      */
+
+    }
 
   return (
     <>
@@ -150,6 +185,7 @@ function AppContent() {
         <li>
           <button onClick={() => fetchIIIF(hit.document.iiifManifest)}>Show Wordcloud</button>
           <button onClick={() => llmAnaylze(hit.document.title[0])}>Get Summary</button>
+          <button onClick={() => testPooler(hit.document.title[0])}>Test Pooler</button>
         </li>
       </ul> 
       </div>  
