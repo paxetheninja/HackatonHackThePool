@@ -6,8 +6,10 @@ import WordCloud from './Plots/WordCloud';
 
 import { stopwordsDE } from './NLP/StopWords';
 
+
 import GameStart from './Pages/GameStart.jsx';
 import GameSelection from './Pages/GameSelection.jsx';
+import Epoch from './Pages/Epoch.jsx';
 
 import { api } from './API/API.jsx';
 import { Pool } from './API/Pool.jsx';
@@ -195,13 +197,28 @@ function AppContent() {
   )
 }
 
+function AppContentGame() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 40 }}>
+      <h2>Game Selection</h2>
+      <div style={{ display: 'flex', gap: 20 }}>
+        <Link to="/epoch"><button>Rate die Epoche</button></Link>
+        <button>Rate den Ort</button>
+        <button>Rate die Person</button>
+      </div>
+    </div>
+  );
+}
+
+
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AppContent />} /> 
+        <Route path="/" element={<AppContentGame />} /> 
         <Route path="/gameselection" element={<GameSelection />} />
         <Route path="/gamestart" element={<GameStart />} />
+        <Route path="/epoch" element={<Epoch />} />
       </Routes>
     </Router>
   );
