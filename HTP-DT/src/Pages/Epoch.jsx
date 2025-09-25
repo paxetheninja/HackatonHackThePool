@@ -139,18 +139,31 @@ function Epoch() {
           {selectedCategories[selectedSlot-1] && (
             (selectedCategories[selectedSlot-1] === 'pictures' || selectedCategories[selectedSlot-1] === 'architecture') && previewImage ? (
               <img src={previewImage} alt={`Tipp ${selectedSlot}`} style={{ marginTop: 24, maxHeight: 250, maxWidth: '100%', borderRadius: 12 }} />
-            
+            ) : selectedCategories[selectedSlot-1] === 'text' ? (
+              (() => { /* empty function for text slot */ })() || <span style={{ marginTop: 24, fontSize: 36, color: '#888' }}>[Text-Tipp]</span>
             ) : (
               <span style={{ marginTop: 24, fontSize: 36 }}>{selectedCategories[selectedSlot-1].charAt(0).toUpperCase() + selectedCategories[selectedSlot-1].slice(1)}</span>
             )
           )}
         </div>
       </div>
-      <div style={{ margin: '24px 0 0 0',  position: 'absolute',bottom: 100, right: 500,  textAlign: 'center' }}>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '10%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 'auto',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         <div style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 8 }}>Tipp:</div>
         <div style={{ display: 'flex', gap: 24, justifyContent: 'center' }}>
           {[1, 2, 3, 4, 5].map(num => (
-            <button
+            <button 
               key={num}
               style={{
                 fontSize: 20,
