@@ -183,7 +183,8 @@ function App() {
     <Router>
       <Routes>
          
-        <Route path="/" element={<AppContent/>}/>
+        <Route path="/" element={<AppContentGame/>}/>
+        <Route path="/debug" element={<AppContent/>}/>
         <Route path="/gameselection" element={<GameSelection />} />
         <Route path="/gamestart" element={<GameStart />} />
         <Route path="/epoch" element={<Epoch />} />
