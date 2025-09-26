@@ -13,6 +13,7 @@ import { inference } from './API/Inference.jsx';
 import GameStart from './Pages/GameStart.jsx';
 import GameSelection from './Pages/GameSelection.jsx';
 import Epoch from './Pages/Epoch.jsx';
+import Epoch_MoreRep from './Pages/Epoch_MoreRep.jsx';
 
 import { api } from './API/API.jsx';
 import { Pool } from './API/Pool.jsx';
@@ -59,10 +60,10 @@ function AppContent() {
 
 
       hits.forEach(hit => {
-        if (hit.edmType === "TEXT") texts++;
-        if (hit.edmType === "IMAGE") pictures++;
-        if (hit.edmType === "VIDEO") videos++;
-        if (hit.edmType === "3D") threeD++;
+        if (hit.document.edmType === "TEXT") texts++;
+        if (hit.document.edmType === "IMAGE") pictures++;
+        if (hit.document.edmType === "VIDEO") videos++;
+        if (hit.document.edmType === "3D") threeD++;
       });
 
       console.log(texts);
@@ -179,8 +180,7 @@ function AppContentGame() {
       <h2>Game Selection</h2>
       <div style={{ display: 'flex', gap: 20 }}>
         <Link to="/epoch"><button>Rate die Epoche</button></Link>
-        <button>Rate den Ort</button>
-        <button>Rate die Person</button>
+        <Link to="/epoch_morerep"><button>Rate die Epoche mit Metadaten</button></Link>
       </div>
     </div>
   );
@@ -197,6 +197,7 @@ function App() {
         <Route path="/gameselection" element={<GameSelection />} />
         <Route path="/gamestart" element={<GameStart />} />
         <Route path="/epoch" element={<Epoch />} />
+        <Route path="/epoch_morerep" element={<Epoch_MoreRep />} />
       </Routes>
     </Router>
   );
