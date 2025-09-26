@@ -3,6 +3,8 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import WordCloud from './Plots/WordCloud';
+import BarChart from './Plots/BarChart.jsx';
+
 
 import { stopwordsDE } from './NLP/StopWords';
 import { inference } from './API/Inference.jsx';
@@ -27,8 +29,16 @@ function AppContent() {
     const [iiif, setIIIf] = useState([]);
     const [wordCountFiltered, setWordCountFiltered] = useState([])
 
-    const [llmText, setLllmText] = useState("")
+    const [llmText, setLllmText] = useState("");
 
+
+
+    const [plotData, setPlotData]  = useState ([
+  { letter: "Text", frequency: 0.08167 },
+  { letter: "Bild", frequency: 0.01492 },
+  { letter: "Video", frequency: 0.02782 },
+  { letter: "3D", frequency: 0.02782 },
+  ])
   //#endregion
 
     //#region Use Effects
@@ -36,11 +46,37 @@ function AppContent() {
     useEffect(() => {
 
       api.search(query, filter).then(setHits).catch(console.error);
-      console.log(query,filter)
-
+      
     }, [query])
 
+    useEffect(() => {
+      if (!hits || hits.length === 0) return;
 
+      let texts = 0;
+      let pictures = 0;
+      let videos = 0;
+      let threeD = 0;
+
+
+      hits.forEach(hit => {
+        if (hit.edmType === "TEXT") texts++;
+        if (hit.edmType === "IMAGE") pictures++;
+        if (hit.edmType === "VIDEO") videos++;
+        if (hit.edmType === "3D") threeD++;
+      });
+
+      console.log(texts);
+      console.log(pictures);
+      console.log(videos);
+      console.log(threeD);
+
+      setPlotData([
+        { letter: "Text", frequency: texts },
+        { letter: "Bild", frequency: pictures },
+        { letter: "Video", frequency: videos },
+        { letter: "3D", frequency: threeD },
+      ]);
+    }, [hits]);
 
     //#endregion
 
@@ -81,6 +117,9 @@ function AppContent() {
 
   return (
     <>
+
+
+      <BarChart data={plotData} />
 
       <img src="datatragedy.png" width={150*imgScale} height={100*imgScale}></img>
       <h1>Hack The Pool - Datentragödie</h1>

@@ -176,7 +176,7 @@ function Epoch() {
                   <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 32, justifyContent: 'center', marginTop: 24 }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 140 }}>
                       <img src={bookImg} alt="Buch" style={{ width: 120, height: 180, objectFit: 'cover', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }} />
-                      <div style={{ marginTop: 12, fontSize: 18, color: '#444', textAlign: 'center' }}>{textSummary}</div>
+                      <div style={{width: 450, marginTop: 12, fontSize: 18, color: '#444', textAlign: 'center' }}>{textSummary}</div>
                     </div>
                     <WordCloud data={wordCountFiltered} width={600} height={400} />
                   </div>
