@@ -252,7 +252,7 @@ function Epoch() {
           <button
             key={ep.name}
             style={{
-              fontSize: 20,
+              fontSize: 12,
               width: 160,
               height: 48,
               borderRadius: 8,
