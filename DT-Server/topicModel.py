@@ -1,26 +1,5 @@
-from openai import OpenAI
+from transformers import pipeline
 
-def gpt(text):
-
-    prompt = f"""Tell me what the following text is about: {text}"""
-
-    client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key="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",
-    )
-
-    completion = client.chat.completions.create(
-    extra_headers={
-        "HTTP-Referer": "<YOUR_SITE_URL>", # Optional. Site URL for rankings on openrouter.ai.
-        "X-Title": "<YOUR_SITE_NAME>", # Optional. Site title for rankings on openrouter.ai.
-    },
-    model="openai/gpt-4o",
-    messages=[
-        {
-        "role": "user",
-        "content": prompt
-        }
-    ]
-    )
-
-    print(completion.choices[0].message.content)
+pipeline_classification_topics = pipeline("text-classification", model="chkla/parlbert-topic-german", return_all_scores=False)
+text = "Barock war ein Zeitalter der Kunst und Kultur wie es sie selten gab"
+print(pipeline_classification_topics(text)) # Macroeconomics

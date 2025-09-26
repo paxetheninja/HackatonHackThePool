@@ -4,9 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 import WordCloud from './Plots/WordCloud';
 import BarChart from './Plots/BarChart.jsx';
+import TreeChart from './Plots/TreeChart.jsx';
 
-
-import { stopwordsDE } from './NLP/StopWords';
 import { inference } from './API/Inference.jsx';
 
 
@@ -17,9 +16,15 @@ import Epoch from './Pages/Epoch.jsx';
 import { api } from './API/API.jsx';
 import { Pool } from './API/Pool.jsx';
 
+
+import EuropeChoropleth from './Plots/WorldMap.jsx';
+
+
+
 function AppContent() {
 
   //#region Declarations
+
     const imgScale = 2;
 
     const [hits, setHits] = useState([]);
@@ -30,7 +35,14 @@ function AppContent() {
     const [wordCountFiltered, setWordCountFiltered] = useState([])
 
     const [llmText, setLllmText] = useState("");
+    
 
+    const dataEU = [
+      { id: 276, rate: 5.4 },  // Germany
+      { id: 250, rate: 7.1 },  // France
+      { id: 380, rate: 8.5 },  // Italy
+      { id: 724, rate: 12.3 }, // Spain
+    ];
 
 
     const [plotData, setPlotData]  = useState ([
@@ -59,10 +71,10 @@ function AppContent() {
 
 
       hits.forEach(hit => {
-        if (hit.edmType === "TEXT") texts++;
-        if (hit.edmType === "IMAGE") pictures++;
-        if (hit.edmType === "VIDEO") videos++;
-        if (hit.edmType === "3D") threeD++;
+        if (hit.document.edmType === "TEXT") texts++;
+        if (hit.document.edmType === "IMAGE") pictures++;
+        if (hit.document.edmType === "VIDEO") videos++;
+        if (hit.document.edmType === "3D") threeD++;
       });
 
       console.log(texts);
@@ -92,6 +104,20 @@ function AppContent() {
       
   }
 
+
+  async function locationAnalyze() {
+
+
+   const stringy = JSON.stringify(hits);
+   const stripped = stringy.substring(0,10000)
+   const result = await inference.analyzeLocations(JSON.stringify(stringy));
+
+   console.log("RESULTSSS: " + result);
+
+
+
+  }
+
     function fetchIIIF(url) {
       api.getProcessedFullText(url).then(setWordCountFiltered).catch(console.error);
      // api.fetchManifest(url).then(setIIIf).catch(console.error);
@@ -119,11 +145,13 @@ function AppContent() {
     <>
 
 
-      <BarChart data={plotData} />
+
 
       <img src="datatragedy.png" width={150*imgScale} height={100*imgScale}></img>
       <h1>Hack The Pool - Datentragödie</h1>
 
+
+        <TreeChart data={hits}/>
 
         {wordCountFiltered && Object.keys(wordCountFiltered).length > 0 && (
          <WordCloud data={wordCountFiltered} width={800} height={500} />
@@ -132,11 +160,14 @@ function AppContent() {
         <p className='llmTExt'>{llmText}</p>
         
 
+        <button onClick={locationAnalyze}>Analyze Locations</button>
+           <EuropeChoropleth data={dataEU} />
+
         <Link to="/gamestart">
           <button style={{ marginBottom: 20 }}>Go to GameStart</button>
         </Link>
 
-
+      <BarChart data={plotData} />
       <h1>Objects</h1>
 
     <input className='queryInput' value={query} onChange={queryInput}></input>

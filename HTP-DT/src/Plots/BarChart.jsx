@@ -12,7 +12,7 @@ export default function BarChart({ data }) {
       return;
     }
 
-     console.log("BarChart got new data:", data); 
+    console.log("BarChart got new data:", data); 
 
     const width = 928;
     const height = 500;
