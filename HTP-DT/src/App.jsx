@@ -12,6 +12,7 @@ import { inference } from './API/Inference.jsx';
 import GameStart from './Pages/GameStart.jsx';
 import GameSelection from './Pages/GameSelection.jsx';
 import Epoch from './Pages/Epoch.jsx';
+import Epoch_MoreRep from './Pages/Epoch_MoreRep.jsx';
 
 import { api } from './API/API.jsx';
 import { Pool } from './API/Pool.jsx';
@@ -207,11 +208,15 @@ function AppContentGame() {
   
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 40 }}>
+      <img src="datatragedy.png" alt="Logo" width={300} height={200} style={{ marginBottom: 16 }} />
       <h2>Game Selection</h2>
-      <div style={{ display: 'flex', gap: 20 }}>
-        <Link to="/epoch"><button>Rate die Epoche</button></Link>
-        <button>Rate den Ort</button>
-        <button>Rate die Person</button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center', justifyContent: 'center', marginTop: 16 }}>
+        <Link to="/epoch" style={{ width: 260 }}>
+          <button style={{ width: '100%', height: 56, fontSize: 14 }}>Rate die Epoche</button>
+        </Link>
+        <Link to="/epoch_morerep" style={{ width: 260 }}>
+          <button style={{ width: '100%', height: 56, fontSize: 14 }}>Rate die Epoche mit Metadaten</button>
+        </Link>
       </div>
     </div>
   );
@@ -228,6 +233,7 @@ function App() {
         <Route path="/gameselection" element={<GameSelection />} />
         <Route path="/gamestart" element={<GameStart />} />
         <Route path="/epoch" element={<Epoch />} />
+        <Route path="/epoch_morerep" element={<Epoch_MoreRep />} />
       </Routes>
     </Router>
   );

@@ -14,8 +14,8 @@ export default function BarChart({ data }) {
 
     console.log("BarChart got new data:", data); 
 
-    const width = 928;
-    const height = 500;
+    const width = 600;
+    const height = 300;
     const marginTop = 30;
     const marginRight = 0;
     const marginBottom = 30;
