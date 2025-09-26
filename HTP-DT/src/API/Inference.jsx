@@ -22,10 +22,7 @@ export class Inference {
     const json = await response.json()
     const summary = json.choices[0].message.content;
     return summary;
-
-  }
-    
+  }   
 }
 
 export const inference = new Inference();
-   

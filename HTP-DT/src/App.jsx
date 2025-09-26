@@ -53,37 +53,7 @@ function AppContent() {
     const strippedText = text.substring(0, 20000);
     setLllmText(inference.summarize(strippedText))
 
-/*
-    fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_OAI_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'openai/gpt-4o',
-        messages: [
-          {
-            role: 'user',
-            content: `Kannst du mir in ein bis zwei Sätzen den inhalt bzw das Fazit von zwei der im Folgenden Werk vorkommenden Geschichten sagen ${strippedText}?`
-          },
-        ],
-      }),
-    }).then(response => response.json()).then(text => setLllmText(text.choices[0].message.content) );
-
-*/
-
-
-
-/* Deprecated Backend Call
-
-        fetch("http://127.0.0.1:8000/llm", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({input: text})
-        }).then(response => response.json()).then(data => setLllmText(data.output))
-*/
-
+      
   }
 
     function fetchIIIF(url) {

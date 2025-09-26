@@ -30,6 +30,30 @@ export class API {
     }
 
 
+    async getRawText(url) {
+
+        const response = await fetch(url);
+        const json = await response.json();
+        const iiif = json.sequences?.[0]?.canvases;
+
+
+        if(!iiif.length) return;
+
+        const texts = iiif.map(canvas => {
+        const fullTextURL = canvas.otherContent[0]?.resources[0]?.resource["@id"];
+        if(!fullTextURL) return Promise.resolve("");
+        return fetch (fullTextURL)
+          .then(response => response.text())
+          .catch(error => {console.error("Fetch failed for: ", fullTextURL, error)});
+        });
+
+        const allTexts = await Promise.all(texts);
+        const fullText = allTexts.join("");
+
+
+        return fullText;
+    }
+
     async getProcessedFullText(url) {
 
         const response = await fetch(url);
