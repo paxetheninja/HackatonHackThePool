@@ -34,10 +34,10 @@ function AppContent() {
 
 
     const [plotData, setPlotData]  = useState ([
-  { letter: "Text", frequency: 0.08167 },
-  { letter: "Bild", frequency: 0.01492 },
-  { letter: "Video", frequency: 0.02782 },
-  { letter: "3D", frequency: 0.02782 },
+  { letter: "Text", frequency: 100 },
+  { letter: "Bild", frequency: 30 },
+  { letter: "Video", frequency: 10 },
+  { letter: "3D", frequency: 200 },
   ])
   //#endregion
 
