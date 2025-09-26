@@ -184,6 +184,28 @@ function Epoch_MoreRep() {
 
   return (
     <div style={{ padding: 40, textAlign: 'center', background: 'linear-gradient(135deg, #232526 0%, #414345 100%)', height: '60vh', width: '60vw' }}>
+      {/* Top right 'Zurück zur Auswahl' button */}
+      <button
+        style={{
+          position: 'fixed',
+          top: 24,
+          right: 32,
+          zIndex: 1200,
+          fontSize: 18,
+          padding: '10px 28px',
+          borderRadius: 8,
+          background: 'linear-gradient(90deg, #1976d2 0%, #0d47a1 100%)',
+          color: '#fff',
+          border: 'none',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          boxShadow: '0 2px 8px #111',
+          transition: 'background 0.2s',
+        }}
+        onClick={() => window.location.href = '/'}
+      >
+        Zurück zur Auswahl
+      </button>
       {(gameState === 'won' || gameState === 'lost') && showEndScreen && (
         <div style={{
           position: 'fixed',
