@@ -177,10 +177,15 @@ function AppContentGame() {
   
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 40 }}>
+      <img src="datatragedy.png" alt="Logo" width={300} height={200} style={{ marginBottom: 16 }} />
       <h2>Game Selection</h2>
-      <div style={{ display: 'flex', gap: 20 }}>
-        <Link to="/epoch"><button>Rate die Epoche</button></Link>
-        <Link to="/epoch_morerep"><button>Rate die Epoche mit Metadaten</button></Link>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center', justifyContent: 'center', marginTop: 16 }}>
+        <Link to="/epoch" style={{ width: 260 }}>
+          <button style={{ width: '100%', height: 56, fontSize: 14 }}>Rate die Epoche</button>
+        </Link>
+        <Link to="/epoch_morerep" style={{ width: 260 }}>
+          <button style={{ width: '100%', height: 56, fontSize: 14 }}>Rate die Epoche mit Metadaten</button>
+        </Link>
       </div>
     </div>
   );

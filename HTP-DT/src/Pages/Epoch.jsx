@@ -21,7 +21,7 @@ function Epoch() {
   const [gameState, setGameState] = useState("running");
   const [attempts, setAttempts] = useState(0);
   const [wordCountFiltered, setWordCountFiltered] = useState(null);
-  const [textSummary, setTextSummary] = useState("Summary");
+  const [textSummary, setTextSummary] = useState("Loading ...");
   const [showEndScreen, setShowEndScreen] = useState(true);
   // Fetch processed text for 'text' Tipp slot
   useEffect(() => {
@@ -214,7 +214,7 @@ function Epoch() {
             Versuch {attempts}/{maxAttempts}
           </div>
         </div>
-        <div style={{ height: 90 }} />
+     
         <div style={{ display: 'flex', gap: 12, marginBottom: 32, justifyContent: 'center' }}>
           <div key={selectedSlot}>
             <span style={{ position: 'absolute', top: 16, left: 18, fontSize: 22, color: '#bbb', fontWeight: 'normal' }}>#{selectedSlot}</span>
@@ -227,45 +227,46 @@ function Epoch() {
                 if (wordCountFiltered && Object.keys(wordCountFiltered).length > 0) {
                   // Try to get a preview image for the book (use previewImage if available, fallback to placeholder)
                   const bookImg = previewImage;
-                  return (
+                   return (
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'flex-start',
+                    gap: 24,
+                    justifyContent: 'center',
+                   
+                    width: '100%',
+                    maxWidth: '100%',
+                    height: '100%',
+                    maxHeight: '100%',
+                    overflow: 'hidden',
+                  }}>
                     <div style={{
                       display: 'flex',
-                      flexDirection: 'row',
+                      flexDirection: 'column',
                       alignItems: 'flex-start',
-                      gap: 24,
-                      justifyContent: 'center',
-                      width: '100%',
-                      maxWidth: '100%',
-                      height: 'calc(60vh - 120px)',
-                      maxHeight: 'calc(60vh - 120px)',
-                      overflow: 'hidden',
+                      minWidth: 120,
+                      maxWidth: 300,
+                      flex: '0 0 180px',
                     }}>
+                      <img src={bookImg} alt="Buch" style={{ width: 180, height: 180, objectFit: 'cover', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', maxWidth: '100%' }} />
                       <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        minWidth: 120,
+                        width: 250,
                         maxWidth: 180,
-                        flex: '0 0 180px',
-                      }}>
-                        <img src={bookImg} alt="Buch" style={{ width: 120, height: 180, objectFit: 'cover', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', maxWidth: '100%' }} />
-                        <div style={{
-                          width: 180,
-                          maxWidth: 180,
-                          marginTop: 12,
-                          fontSize: 16,
-                          color: '#ccc',
-                          textAlign: 'center',
-                          overflow: 'auto',
-                          wordBreak: 'break-word',
-                          maxHeight: 120,
-                        }}>{textSummary}</div>
-                      </div>
-                      <div style={{ flex: 1, minWidth: 0, maxWidth: 'calc(60vw - 220px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center' }}>
-                        <WordCloud data={wordCountFiltered} width={340} height={220} />
-                      </div>
+                        marginTop: 12,
+                        fontSize: 16,
+                        color: '#ccc',
+                        textAlign: 'center',
+                        overflow: 'auto',
+                        wordBreak: 'break-word',
+                        maxHeight: 200,
+                      }}>{textSummary}</div>
                     </div>
-                  );
+                    <div style={{ flex: 1, minWidth: 0, maxWidth: 'calc(60vw - 220px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center' }}>
+                      <WordCloud data={wordCountFiltered} width={340} height={350} />
+                    </div>
+                  </div>
+                );
                 } else {
                   return <span style={{ marginTop: 24, fontSize: 36, color: '#bbb' }}>[Loading ...]</span>;
                 }

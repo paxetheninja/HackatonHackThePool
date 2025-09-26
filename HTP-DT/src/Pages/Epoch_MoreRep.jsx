@@ -21,7 +21,7 @@ function Epoch_MoreRep() {
   const [gameState, setGameState] = useState("running");
   const [attempts, setAttempts] = useState(0);
   const [wordCountFiltered, setWordCountFiltered] = useState(null);
-  const [textSummary, setTextSummary] = useState("Summary");
+  const [textSummary, setTextSummary] = useState("Loading ...");
   const [showEndScreen, setShowEndScreen] = useState(true);
   // Fetch processed text for 'text' Tipp slot
   useEffect(() => {
@@ -257,7 +257,7 @@ function Epoch_MoreRep() {
           Versuch {attempts}/{maxAttempts}
         </div>
       </div>
-  <div style={{ height: 90 }} />
+  
   <div style={{ display: 'flex', gap: 12, marginBottom: 32, justifyContent: 'center' }}>
         <div key={selectedSlot}>
           <span style={{ position: 'absolute', top: 16, left: 18, fontSize: 22, color: '#bbb', fontWeight: 'normal' }}>#{selectedSlot}</span>
@@ -277,11 +277,11 @@ function Epoch_MoreRep() {
                     alignItems: 'flex-start',
                     gap: 24,
                     justifyContent: 'center',
-                    /* marginTop removed to move content up */
+                   
                     width: '100%',
                     maxWidth: '100%',
-                    height: 'calc(60vh - 120px)', // leave space for header/buttons
-                    maxHeight: 'calc(60vh - 120px)',
+                    height: '100%',
+                    maxHeight: '100%',
                     overflow: 'hidden',
                   }}>
                     <div style={{
@@ -289,12 +289,12 @@ function Epoch_MoreRep() {
                       flexDirection: 'column',
                       alignItems: 'flex-start',
                       minWidth: 120,
-                      maxWidth: 180,
+                      maxWidth: 300,
                       flex: '0 0 180px',
                     }}>
-                      <img src={bookImg} alt="Buch" style={{ width: 120, height: 180, objectFit: 'cover', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', maxWidth: '100%' }} />
+                      <img src={bookImg} alt="Buch" style={{ width: 180, height: 180, objectFit: 'cover', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', maxWidth: '100%' }} />
                       <div style={{
-                        width: 180,
+                        width: 250,
                         maxWidth: 180,
                         marginTop: 12,
                         fontSize: 16,
@@ -302,11 +302,11 @@ function Epoch_MoreRep() {
                         textAlign: 'center',
                         overflow: 'auto',
                         wordBreak: 'break-word',
-                        maxHeight: 120,
+                        maxHeight: 200,
                       }}>{textSummary}</div>
                     </div>
                     <div style={{ flex: 1, minWidth: 0, maxWidth: 'calc(60vw - 220px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center' }}>
-                      <WordCloud data={wordCountFiltered} width={340} height={220} />
+                      <WordCloud data={wordCountFiltered} width={340} height={350} />
                     </div>
                   </div>
                 );
