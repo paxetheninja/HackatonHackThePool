@@ -1,0 +1,169 @@
+[
+  {
+    "name": "Gootik",
+    "text": [
+      {
+        "institution": "konzerthaus",
+        "time": "2025-05-15T09:46:49.596Z",
+        "id": "evis_WKH_00000390_0000bece"
+      },
+      {
+        "institution": "oenb-abo",
+        "time": "2025-09-05T09:25:17.586Z",
+        "id": "+Z256782706"
+      }
+    ],
+    "architecture": [
+      {
+        "institution": "bischof-rudigier-stiftung-core",
+        "time": "2025-09-16T07:38:47",
+        "id": "00dffdec-ad52-4e1c-b6b4-771fe01cdba0"
+      },
+      {
+        "institution": "wifar-core",
+        "time": "2025-07-02T07:51:59",
+        "id": "AT-WFR-PIC-GL1S491-LAT_150_024"
+      },
+      {
+        "institution": "vorarlberger-landesbib",
+        "time": "2024-12-16T13:08:38.603Z",
+        "id": "o:36504"
+      }
+    ],
+    "pictures": [
+      {
+        "institution": "belvedere",
+        "time": "2025-09-17T06:47:57",
+        "id": "4846"
+      },
+      {
+        "institution": "belvedere",
+        "time": "2025-09-17T06:47:57",
+        "id": "4836"
+      },
+      {
+        "institution": "belvedere",
+        "time": "2025-09-17T06:47:57",
+        "id": "4905"
+      },
+      {
+        "institution": "vorarlberger-landesbib",
+        "time": "2024-12-16T13:08:38.603Z",
+        "id": "o:38965"
+      }
+    ]
+  }, 
+  {
+    "name": "Antike",
+      "text": [
+      {
+        "institution": "konzerthaus",
+        "time": "2025-05-15T09:46:49.596Z",
+        "id": "evis_WKH_00000390_0000bece"
+      },
+      {
+        "institution": "oenb-abo",
+        "time": "2025-09-05T09:25:17.586Z",
+        "id": "+Z256782706"
+      }
+    ],
+    "architecture": [
+      {
+        "institution": "bischof-rudigier-stiftung-core",
+        "time": "2025-09-16T07:38:47",
+        "id": "00dffdec-ad52-4e1c-b6b4-771fe01cdba0"
+      },
+      {
+        "institution": "wifar-core",
+        "time": "2025-07-02T07:51:59",
+        "id": "AT-WFR-PIC-GL1S491-LAT_150_024"
+      },
+      {
+        "institution": "vorarlberger-landesbib",
+        "time": "2024-12-16T13:08:38.603Z",
+        "id": "o:36504"
+      }
+    ],
+    "pictures": [
+      {
+        "institution": "belvedere",
+        "time": "2025-09-17T06:47:57",
+        "id": "4846"
+      },
+      {
+        "institution": "belvedere",
+        "time": "2025-09-17T06:47:57",
+        "id": "4836"
+      },
+      {
+        "institution": "belvedere",
+        "time": "2025-09-17T06:47:57",
+        "id": "4905"
+      },
+      {
+        "institution": "vorarlberger-landesbib",
+        "time": "2024-12-16T13:08:38.603Z",
+        "id": "o:38965"
+      }
+    ]
+  }, 
+  {
+    "name": "Moderne",
+  "text": [
+    {
+      "institution": "oenb-abo",
+      "time": "2025-09-05T09:25:17.586Z",
+      "id": "+Z220543003"
+    },
+    {
+      "institution": "oenb-abo",
+      "time": "2025-09-05T09:25:17.586Z",
+      "id": "+Z20686260X"
+    }
+  ],
+    "architecture": [
+      {
+        "institution": "albertina",
+        "time": "2025-04-08T09:05:19.201Z",
+        "id": "2939"
+      },
+      {
+        "institution": "albertina",
+        "time": "2025-04-08T09:05:19.201Z",
+        "id": "9984"
+      },
+      {
+        "institution": "albertina",
+        "time": "2025-04-08T09:05:19.201Z",
+        "id": "14689"
+      },
+      {
+        "institution": "albertina",
+        "time": "2025-04-08T09:05:19.201Z",
+        "id": "5485"
+      }
+    ],
+    "pictures": [
+      {
+        "institution": "lsnoe-core",
+        "time": "2025-09-12T09:01:04",
+        "id": "CAR-M-3254"
+      },
+      {
+        "institution": "mak",
+        "time": "2025-08-11T08:57:11.548Z",
+        "id": "G 1867"
+      },
+      {
+        "institution": "wifar-core",
+        "time": "2025-07-02T07:51:59",
+        "id": "AT-WFR-PIC-GL1S491-LAT_142_016"
+      },
+      {
+        "institution": "belvedere",
+        "time": "2025-09-17T06:47:57",
+        "id": "6127"
+      }
+    ]
+  }
+]
